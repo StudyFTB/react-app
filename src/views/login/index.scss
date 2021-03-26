@@ -1,10 +1,25 @@
 .container {
-  position: fixed;
-  top: 0;
-  right: 0;
-  bottom: 0;
-  left: 0;
+  height: 100vh;
   display: flex;
   justify-content: center;
   align-items: center;
+  background-color: #00004d;
+  &>div {
+    width: 300px;
+    color: #fff;
+  }
+  header {
+    line-height: 56px;
+    display: flex;
+    justify-content: space-between;
+    span:nth-child(1) {
+      font-size: 20px;
+    }
+    span:nth-child(2) {
+      font-size: 14px;
+    }
+  }
+  .site-form-item-icon {
+    color: #bbb;
+  }
 }

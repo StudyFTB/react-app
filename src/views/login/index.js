@@ -1,16 +1,29 @@
 import React from 'react';
 import './index.scss';
-import { Form, Input } from 'antd';
+
+import LoginForm from './LoginForm';
+import RegisterForm from './RegisterForm';
 
 export default class Login extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      formType: 'login'
+    }
+  }
+
+  changeType = (type) => {
+    this.setState({
+      formType: type
+    })
+  }
+
   render() {
     return (
       <div className="container">
-        <Form>
-          <Form.Item label="Username" name="username" >
-            <Input autoComplete={false} />
-          </Form.Item>
-        </Form>
+        {
+          this.state.formType === 'login' ? <LoginForm onSpanClick={this.changeType}></LoginForm> : <RegisterForm onSpanClick={this.changeType}></RegisterForm>
+        }
       </div>
     )
   }
