@@ -29,7 +29,10 @@ export default class RegisterForm extends React.Component {
           initialValues={{ remember: true }}
           onFinish={this.onFinish}
         >
-          <Form.Item name="username" rules={[{ required: true, message: '请输入用户名' }]} >
+          <Form.Item name="username" rules={[
+            { type: 'email', message: '邮箱格式不正确' },
+            { required: true, message: '请输入用户名' }
+          ]} >
             <Input prefix={<UserOutlined className="site-form-item-icon" />} placeholder="用户名" />
           </Form.Item>
           <Form.Item name="password" rules={[{ required: true, message: '请输入密码！' }]} >

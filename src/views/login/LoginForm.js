@@ -29,17 +29,28 @@ export default class LoginForm extends React.Component {
           initialValues={{ remember: true }}
           onFinish={this.onFinish}
         >
-          <Form.Item name="username" rules={[{ required: true, message: '请输入用户名' }]} >
+          <Form.Item name="username" rules={[
+            { required: true, message: '邮箱不能为空' },
+            { type: 'email', message: '邮箱格式不正确' },
+          ]} >
             <Input prefix={<UserOutlined className="site-form-item-icon" />} placeholder="用户名" />
           </Form.Item>
-          <Form.Item name="password" rules={[{ required: true, message: '请输入密码！' }]} >
+          <Form.Item name="password" rules={[
+            { required: true, message: '密码不能为空' },
+            { min: 6, message: '不能少于6位' },
+            { max: 20, message: '不能大于20位' },
+            { pattern: /^[0-9]*$/, message: '请输入数字' },
+          ]} >
             <Input
               prefix={<LockOutlined className="site-form-item-icon" />}
               type="password"
               placeholder="密码"
             />
           </Form.Item>
-          <Form.Item name="varification" rules={[{ required: true, message: '请输入验证码！' }]} >
+          <Form.Item name="varification" rules={[
+            { required: true, message: '请输入验证码！' },
+            { len: 6, message: '请输入6为验证码' }
+          ]} >
             <Row gutter={13}>
                 <Col span={15}>
                   <Input
@@ -53,7 +64,7 @@ export default class LoginForm extends React.Component {
                 </Col>
             </Row>
           </Form.Item>
-          <Form.Item name="submit">
+          <Form.Item>
             <Button type="primary" htmlType="submit" block>登录</Button>
           </Form.Item>
         </Form>
