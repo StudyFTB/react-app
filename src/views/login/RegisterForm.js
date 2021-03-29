@@ -26,27 +26,43 @@ export default class RegisterForm extends React.Component {
         </header>
         <Form
           name="normal_login"
-          initialValues={{ remember: true }}
           onFinish={this.onFinish}
         >
           <Form.Item name="username" rules={[
             { type: 'email', message: '邮箱格式不正确' },
             { required: true, message: '请输入用户名' }
           ]} >
-            <Input prefix={<UserOutlined className="site-form-item-icon" />} placeholder="用户名" />
+            <Input prefix={<UserOutlined className="site-form-item-icon" />} placeholder="用户名" autoComplete="off" />
           </Form.Item>
-          <Form.Item name="password" rules={[{ required: true, message: '请输入密码！' }]} >
+          <Form.Item name="password" rules={[
+            { required: true, message: '请输入密码！' },
+            { min: 6, message: '不能少于6位' },
+            { max: 20, message: '不能大于20位' },
+            { pattern: /^([0-9]|[a-z]|[A-Z])*$/, message: '只能输入数字或字母' },
+          ]} >
             <Input
               prefix={<LockOutlined className="site-form-item-icon" />}
               type="password"
               placeholder="密码"
+              autoComplete="off"
             />
           </Form.Item>
-          <Form.Item name="password1" rules={[{ required: true, message: '请输入密码！' }]} >
+          <Form.Item name="password1" rules={[
+            { required: true, message: '请输入重复密码！' },
+            ({ getFieldValue }) => ({
+              validator(_, value) {
+                if (!value || getFieldValue('password') === value) {
+                  return Promise.resolve();
+                }
+                return Promise.reject(new Error('两次输入的密码不相同'));
+              },
+            }),
+          ]} >
             <Input
               prefix={<LockOutlined className="site-form-item-icon" />}
               type="password"
-              placeholder="密码"
+              placeholder="重复密码"
+              autoComplete="off"
             />
           </Form.Item>
           <Form.Item name="varification" rules={[{ required: true, message: '请输入验证码！' }]} >
@@ -56,6 +72,7 @@ export default class RegisterForm extends React.Component {
                     prefix={<VerifiedOutlined className="site-form-item-icon" />}
                     type="text"
                     placeholder="验证码"
+                    autoComplete="off"
                   />
                 </Col>
                 <Col span={9}>

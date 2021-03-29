@@ -13,7 +13,8 @@ export default class LoginForm extends React.Component {
     console.log('Received values of form: ', values);
   };
 
-  handleCLick = () => {
+  handleCLick = (a) => {
+    console.log(a);
     this.props.onSpanClick('register');
   }
 
@@ -26,30 +27,30 @@ export default class LoginForm extends React.Component {
         </header>
         <Form
           name="normal_login"
-          initialValues={{ remember: true }}
           onFinish={this.onFinish}
         >
           <Form.Item name="username" rules={[
             { required: true, message: '邮箱不能为空' },
             { type: 'email', message: '邮箱格式不正确' },
           ]} >
-            <Input prefix={<UserOutlined className="site-form-item-icon" />} placeholder="用户名" />
+            <Input prefix={<UserOutlined className="site-form-item-icon" />} placeholder="用户名" autoComplete="off" />
           </Form.Item>
           <Form.Item name="password" rules={[
             { required: true, message: '密码不能为空' },
             { min: 6, message: '不能少于6位' },
             { max: 20, message: '不能大于20位' },
-            { pattern: /^[0-9]*$/, message: '请输入数字' },
+            { pattern: /^([0-9]|[a-z]|[A-Z])*$/, message: '只能输入数字或字母' },
           ]} >
             <Input
               prefix={<LockOutlined className="site-form-item-icon" />}
               type="password"
               placeholder="密码"
+              autoComplete="off"
             />
           </Form.Item>
           <Form.Item name="varification" rules={[
             { required: true, message: '请输入验证码！' },
-            { len: 6, message: '请输入6为验证码' }
+            { len: 6, message: '请输入6位验证码' }
           ]} >
             <Row gutter={13}>
                 <Col span={15}>
@@ -57,6 +58,7 @@ export default class LoginForm extends React.Component {
                     prefix={<VerifiedOutlined className="site-form-item-icon" />}
                     type="text"
                     placeholder="验证码"
+                    autoComplete="off"
                   />
                 </Col>
                 <Col span={9}>
