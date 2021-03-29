@@ -2,6 +2,8 @@ import React from 'react';
 import './index.scss';
 import { Form, Input, Button, Row, Col } from 'antd';
 import { UserOutlined, LockOutlined, VerifiedOutlined } from '@ant-design/icons';
+import { validate_password } from '../../utils/validate';
+import { Register, GetRegisterSms } from '../../apis/user';
 
 export default class RegisterForm extends React.Component {
   constructor(props) {
@@ -10,11 +12,20 @@ export default class RegisterForm extends React.Component {
   }
 
   onFinish = (values) => {
-    console.log('Received values of form: ', values);
+    Register(values).then(res => {
+      console.log(res);
+    }).catch(e => {});
   };
 
   handleCLick = () => {
     this.props.onSpanClick('login');
+  }
+
+  // 点击获取验证码触发
+  onCodeClick = () => {
+    GetRegisterSms().then(res => {
+
+    }).catch(e => {});
   }
 
   render() {
@@ -38,7 +49,7 @@ export default class RegisterForm extends React.Component {
             { required: true, message: '请输入密码！' },
             { min: 6, message: '不能少于6位' },
             { max: 20, message: '不能大于20位' },
-            { pattern: /^([0-9]|[a-z]|[A-Z])*$/, message: '只能输入数字或字母' },
+            { pattern: validate_password, message: '只能输入数字或字母' },
           ]} >
             <Input
               prefix={<LockOutlined className="site-form-item-icon" />}
@@ -76,7 +87,7 @@ export default class RegisterForm extends React.Component {
                   />
                 </Col>
                 <Col span={9}>
-                  <Button danger type="primary" block>获取验证码</Button>
+                  <Button danger type="primary" block onClick={this.onCodeClick}>获取验证码</Button>
                 </Col>
             </Row>
             
