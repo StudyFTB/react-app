@@ -64,17 +64,17 @@ export default class LoginForm extends React.Component {
             { len: 6, message: '请输入6位验证码' }
           ]} >
             <Row gutter={13}>
-                <Col span={15}>
-                  <Input
-                    prefix={<VerifiedOutlined className="site-form-item-icon" />}
-                    type="text"
-                    placeholder="验证码"
-                    autoComplete="off"
-                  />
-                </Col>
-                <Col span={9}>
-                  <Button danger type="primary" block onClick={this.onCodeClick}>获取验证码</Button>
-                </Col>
+              <Col span={15}>
+                <Input
+                  prefix={<VerifiedOutlined className="site-form-item-icon" />}
+                  type="text"
+                  placeholder="验证码"
+                  autoComplete="off"
+                />
+              </Col>
+              <Col span={9}>
+                <Button danger type="primary" block onClick={this.onCodeClick}>获取验证码</Button>
+              </Col>
             </Row>
           </Form.Item>
           <Form.Item>
