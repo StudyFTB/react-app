@@ -1,6 +1,6 @@
 import React from 'react';
 import './index.scss';
-import { Form, Input, Button, Row, Col } from 'antd';
+import { Form, Input, Button, Row, Col, message } from 'antd';
 import { UserOutlined, LockOutlined, VerifiedOutlined } from '@ant-design/icons';
 import { validate_password } from '../../utils/validate';
 import { Login, GetLoginSms } from '../../apis/user';
@@ -8,8 +8,9 @@ import { Login, GetLoginSms } from '../../apis/user';
 export default class LoginForm extends React.Component {
   constructor(props) {
     super(props);
-    this.state = {};
-    this.ref = React.createRef();
+    this.state = {
+      username: ''
+    };
   }
 
   onFinish = (values) => {
@@ -24,12 +25,27 @@ export default class LoginForm extends React.Component {
   }
   // 点击获取验证码触发
   onCodeClick = () => {
-    GetLoginSms().then(res => {
-
-    }).catch(e => {});
+    if(!this.state.username) {
+      message.info('用户名不能为空');
+      return false;
+    }
+    GetLoginSms({username: this.state.username}).then(res => {
+      console.log(res);
+    }).catch(e => {
+      console.log(e);
+    });
   }
 
+  inputChange = (e) => {
+    console.log(e);
+    this.setState({
+      username: e.target.value
+    })
+  }
+
+
   render() {
+    const { username } = this.state;
     return (
       <div>
         <header>
@@ -44,7 +60,7 @@ export default class LoginForm extends React.Component {
             { required: true, message: '邮箱不能为空' },
             { type: 'email', message: '邮箱格式不正确' },
           ]} >
-            <Input prefix={<UserOutlined className="site-form-item-icon" />} placeholder="用户名" autoComplete="off" ref={this.ref} />
+            <Input value={username} onChange={this.inputChange} prefix={<UserOutlined className="site-form-item-icon" />} placeholder="用户名" autoComplete="off" />
           </Form.Item>
           <Form.Item name="password" rules={[
             { required: true, message: '密码不能为空' },
