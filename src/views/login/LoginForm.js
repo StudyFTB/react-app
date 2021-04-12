@@ -36,10 +36,9 @@ export default class LoginForm extends React.Component {
     });
   }
 
-  inputChange = (e) => {
-    console.log(e);
+  changeState = (key,value) => {
     this.setState({
-      username: e.target.value
+      [key]: value
     })
   }
 
@@ -60,7 +59,8 @@ export default class LoginForm extends React.Component {
             { required: true, message: '邮箱不能为空' },
             { type: 'email', message: '邮箱格式不正确' },
           ]} >
-            <Input value={username} onChange={this.inputChange} prefix={<UserOutlined className="site-form-item-icon" />} placeholder="用户名" autoComplete="off" />
+            <Input value={username} onChange={e => this.changeState('username',e.target.value)}
+             prefix={<UserOutlined className="site-form-item-icon" />} placeholder="用户名" autoComplete="off" />
           </Form.Item>
           <Form.Item name="password" rules={[
             { required: true, message: '密码不能为空' },
