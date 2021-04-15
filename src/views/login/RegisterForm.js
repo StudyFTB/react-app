@@ -1,19 +1,29 @@
 import React from 'react';
 import './index.scss';
-import { Form, Input, Button, Row, Col } from 'antd';
+import { Form, Input, Button, Row, Col, message } from 'antd';
 import { UserOutlined, LockOutlined, VerifiedOutlined } from '@ant-design/icons';
-import { validate_password } from '../../utils/validate';
-import { Register, GetRegisterSms } from '../../apis/user';
+import { validate_password, reg_mail } from '../../utils/validate';
+import { Register } from '../../apis/user';
+import { Code } from '../../components/code';
 
 export default class RegisterForm extends React.Component {
   constructor(props) {
     super(props);
-    this.state = {};
+    this.state = {
+      username: '',
+      code_button_status: 'disabled', // 获取验证码的按钮的状态，normal正常，loading发送中，disabled未验证通过，downcount倒计时
+    };
   }
 
   onFinish = (values) => {
     Register(values).then(res => {
-      console.log(res);
+      if(!res.data.resCode){
+        message.success(res.data.message);
+        this.props.onSpanClick('login');
+        clearInterval(this.state.timer);
+      }else {
+        message.warning(res.data.message);
+      }
     }).catch(e => {});
   };
 
@@ -21,14 +31,21 @@ export default class RegisterForm extends React.Component {
     this.props.onSpanClick('login');
   }
 
-  // 点击获取验证码触发
-  onCodeClick = () => {
-    GetRegisterSms().then(res => {
+  changeInput = (e) => {
+    this.setState({
+      username: e.target.value
+    })
+  }
 
-    }).catch(e => {});
+  codeStatusChange = status => {
+    this.setState({
+      code_button_status: status
+    })
   }
 
   render() {
+    const { username, code_button_status } = this.state;
+    const _this = this;
     return (
       <div>
         <header>
@@ -40,10 +57,24 @@ export default class RegisterForm extends React.Component {
           onFinish={this.onFinish}
         >
           <Form.Item name="username" rules={[
-            { type: 'email', message: '邮箱格式不正确' },
-            { required: true, message: '请输入用户名' }
+            { required: true, message: '请输入用户名' },
+            ({ getFieldValue }) => ({
+              validator(_, value) {
+                if (!value || reg_mail.test(getFieldValue('username'))) {
+                  if(code_button_status === 'disabled') {
+                    _this.setState({code_button_status:'normal'})
+                  }
+                  return Promise.resolve();
+                }
+                if(code_button_status === 'normal') {
+                  _this.setState({code_button_status:'disabled'})
+                }
+                return Promise.reject(new Error('邮箱格式不正确'));
+              },
+            }),
           ]} >
-            <Input prefix={<UserOutlined className="site-form-item-icon" />} placeholder="用户名" autoComplete="off" />
+            <Input value={username} onChange={this.changeInput}
+             prefix={<UserOutlined className="site-form-item-icon" />} placeholder="用户名" autoComplete="off" />
           </Form.Item>
           <Form.Item name="password" rules={[
             { required: true, message: '请输入密码！' },
@@ -76,7 +107,7 @@ export default class RegisterForm extends React.Component {
               autoComplete="off"
             />
           </Form.Item>
-          <Form.Item name="varification" rules={[{ required: true, message: '请输入验证码！' }]} >
+          <Form.Item name="code" rules={[{ required: true, message: '请输入验证码！' }]} >
             <Row gutter={13}>
                 <Col span={15}>
                   <Input
@@ -87,7 +118,7 @@ export default class RegisterForm extends React.Component {
                   />
                 </Col>
                 <Col span={9}>
-                  <Button danger type="primary" block onClick={this.onCodeClick}>获取验证码</Button>
+                  <Code status={code_button_status} onCodeChange={ this.codeStatusChange } username={username}></Code>
                 </Col>
             </Row>
             
