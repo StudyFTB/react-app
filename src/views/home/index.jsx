@@ -1,11 +1,10 @@
 import React from "react";
-import { addCount, reduceCount } from '@/store/actions.js'
+import actions from '@/store/actions'
 import { connect } from 'react-redux'
 
 class Home extends React.Component {
   render() {
     const { value, onReduceClick, onIncreaseClick } = this.props;
-    console.log(value,onIncreaseClick);
     return (
       <div>
         <button onClick={onReduceClick}>Reduce</button>
@@ -18,14 +17,14 @@ class Home extends React.Component {
 
 const mapStateToProps = (state) => {
   return {
-    value: state.computedCount
+    value: state.common.count
   }
 }
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    onReduceClick: () => dispatch(reduceCount(1)),
-    onIncreaseClick: () => dispatch(addCount(1))
+    onReduceClick: () => dispatch(actions.reduceCount(1)),
+    onIncreaseClick: () => dispatch(actions.addCount(1))
   }
 }
 
