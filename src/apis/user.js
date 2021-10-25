@@ -46,3 +46,11 @@ export function GetRegisterSms(data) {
     data: {...data,module: 'register'}
   })
 }
+
+export function GetAd(data) {
+  return service.request({
+    url: '/fl/api/carousel/list',
+    method: 'get',
+    params: data
+  })
+}
