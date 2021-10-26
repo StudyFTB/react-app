@@ -31,12 +31,12 @@ const routes = [
         path: '/user',
         component: User,
       },
+      {
+        name: '404',
+        path: '*',
+        component: ErrorPage,
+      },
     ]
-  },
-  {
-    name: '404',
-    path: '*',
-    component: ErrorPage,
   },
 ]
 
