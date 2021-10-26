@@ -6,12 +6,11 @@ class Home extends React.Component {
 
   componentDidMount() {
     const { dispatch } = this.props;
-    dispatch(actions.requestUserInfo({location:3})).then(() => {console.log(566)})
+    dispatch(actions.requestUserInfo({location:3}))
   }
 
   render() {
-    const { value, onReduceClick, onIncreaseClick, userInfo } = this.props;
-    console.log(userInfo)
+    const { value, onReduceClick, onIncreaseClick } = this.props;
     return (
       <div>
         <button onClick={onReduceClick}>Reduce</button>
