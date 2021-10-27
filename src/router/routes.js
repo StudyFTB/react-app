@@ -17,19 +17,22 @@ const routes = [
   },
   // 嵌入式根路由必须放在后面
   {
-    name: '',
+    name: '控制台',
     path: '/',
     component: Layout,
+    isMenu: true,
     children: [
       {
-        name: 'Home',
+        name: '首页',
         path: '/home',
         component: Home,
+        isMenu: true,
       },
       {
-        name: 'User',
+        name: '用户中心',
         path: '/user',
         component: User,
+        isMenu: true,
       },
       {
         name: '404',
