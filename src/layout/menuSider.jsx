@@ -45,6 +45,7 @@ function MenuSider({history,location}) {
     if(pathArr.length===2) return ['/']
     else return ['/'+pathArr[1]]
   }
+
   return (
     <Menu theme="dark" defaultSelectedKeys={defaultSelectedKeys} defaultOpenKeys={defaultOpenKeys()} mode="inline" onClick={({key}) => {history.push(key)}}>
       {setMenuHtml(menuRoutes)}
