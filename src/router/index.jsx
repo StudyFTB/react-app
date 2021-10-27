@@ -8,7 +8,9 @@ export default function BaseRouter(props) {
       <Switch>
         {
           routes.map(item => {
-            if(item.children && item.children.length>0) { // 有子级，嵌套路由。父级不能exact，子级重定向
+            if(item.redirect){
+              return <Redirect exact from={item.path} to={item.redirect} key={item.path} />
+            }else if(item.children && item.children.length>0) { // 有子级，嵌套路由。父级不能exact，子级重定向
               return <Route path={item.path} key={item.path} render={(props) => 
                 <item.component {...props}>
                   <Switch>

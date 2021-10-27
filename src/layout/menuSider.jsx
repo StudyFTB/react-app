@@ -8,7 +8,7 @@ import {
 
 const { SubMenu  } = Menu;
 
-function MenuSider({history,location}) {
+function MenuSider(props) {
   // 过滤出要显示的菜单
   const filterMenuRoutes = (arr) => {
     return arr.filter(item => {
@@ -39,15 +39,13 @@ function MenuSider({history,location}) {
     })
   }
 
-  const defaultSelectedKeys = [location.pathname];
   const defaultOpenKeys = () => {
-    const pathArr = location.pathname.split('/');
-    if(pathArr.length===2) return ['/']
+    const pathArr = props.location.pathname.split('/');
+    if(pathArr.length===2) return ['/console']
     else return ['/'+pathArr[1]]
   }
-
   return (
-    <Menu theme="dark" defaultSelectedKeys={defaultSelectedKeys} defaultOpenKeys={defaultOpenKeys()} mode="inline" onClick={({key}) => {history.push(key)}}>
+    <Menu theme="dark" defaultSelectedKeys={[props.location.pathname]} defaultOpenKeys={defaultOpenKeys()} mode="inline" onClick={({key}) => {props.history.push(key)}}>
       {setMenuHtml(menuRoutes)}
     </Menu>
   )

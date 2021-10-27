@@ -15,22 +15,26 @@ const routes = [
     path: '/error',
     component: ErrorPage,
   },
+  {
+    path: '/',
+    redirect: '/console'
+  },
   // 嵌入式根路由必须放在后面
   {
     name: '控制台',
-    path: '/',
+    path: '/console',
     component: Layout,
     isMenu: true,
     children: [
       {
         name: '首页',
-        path: '/home',
+        path: '/console/home',
         component: Home,
         isMenu: true,
       },
       {
         name: '用户中心',
-        path: '/user',
+        path: '/console/user',
         component: User,
         isMenu: true,
       },
