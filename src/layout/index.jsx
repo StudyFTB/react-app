@@ -15,6 +15,7 @@ export default function Layout(props) {
   return (
     <AntdLayout className="layout-wrap">
       <Sider className="sider-wrap" collapsible collapsed={collapsed} onCollapse={() => {setCollapsed(!collapsed)}}>
+        <div style={{'margin-bottom': '20px',fontSize: 20,textAlign:'center'}}>logo</div>
         <MenuSider history={props.history} location={props.location}></MenuSider>
       </Sider>
       <AntdLayout className="main-wrap">
