@@ -1,14 +1,6 @@
 import { useState, useEffect } from 'react'
 
-function User() {
-  const [count,setCount] = useState(0);
-  useEffect(() => {
-    console.log(111,count)
-    return () => {
-      console.log(2222);
-    }
-  },[count]);
-
+function useCountDown() {
   const [countdown,setCountDown] = useState(30);
   useEffect(() => {
     let timer = null;
@@ -24,6 +16,19 @@ function User() {
       clearTimeout(timer)
     }
   },[countdown])
+  return countdown;
+}
+
+function User() {
+  const [count,setCount] = useState(0);
+  useEffect(() => {
+    console.log(111,count)
+    return () => {
+      console.log(2222);
+    }
+  },[count]);
+
+  const countdown = useCountDown();
 
   return (
     <>
